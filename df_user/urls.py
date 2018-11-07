@@ -8,5 +8,7 @@ urlpatterns = [
     url('^register_user_exist/$', views.register_user_exist),
     url('^register_user_exist1/()$', views.register_user_exist),
     url('^login_handle/$', views.login_handle),
-    url('^user_info/$', views.user_info)
+    url('^user_info/$', views.user_info),
+    url('^user_order/$', views.user_order),
+    url('^user_site/$', views.user_site),#user_site
 ]

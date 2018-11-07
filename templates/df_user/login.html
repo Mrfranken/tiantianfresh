@@ -14,6 +14,7 @@
                 {#pwd_is_error = true#}
             }
 
+            下面的函数为
             $('#username').blur(function(){
                 if ($('#username').val().length == 0){
                     $('.user_error').html('请填写用户名').show()
@@ -68,7 +69,7 @@
 						<input type="text" name="username" class="name_input" placeholder="请输入用户名" id="username" value="{{ uname }}">
 						<div class="user_error">输入错误</div>
 
-						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码" id="password">
+						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码" id="password" value="{{ upwd }}">
 						<div class="pwd_error">输入错误</div>
 
 						<div class="more_input clearfix">
