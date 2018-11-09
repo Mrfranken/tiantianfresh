@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'df_user'
+    'df_user',
+    'df_goods'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -129,6 +130,13 @@ STATIC_URL = '/wsj1/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}
 
 if __name__ == "__main__":
     print(BASE_DIR)

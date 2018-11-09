@@ -79,7 +79,9 @@ def user_info(request):
     context = {
         'user_name': current_user.uname,
         'uphone': current_user.umail,
-        'title': u'用户中心'
+        'title': u'用户中心',
+        'page_name': 1,
+        'guest_cart': 0
     }
     return render(request, 'df_user/user_center_info.html', context=context)
 
