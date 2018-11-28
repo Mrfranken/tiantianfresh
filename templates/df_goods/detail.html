@@ -14,11 +14,11 @@
 		<div class="goods_detail_pic fl"><img src="images/goods_detail.jpg"></div>
 
 		<div class="goods_detail_list fr">
-			<h3>大兴大棚草莓</h3>
+			<h3>{{ good_info.gtitle }}</h3>
 			<p>草莓浆果柔软多汁，味美爽口，适合速冻保鲜贮藏。草莓速冻后，可以保持原有的色、香、味，既便于贮藏，又便于外销。</p>
 			<div class="prize_bar">
-				<span class="show_pirze">¥<em>16.80</em></span>
-				<span class="show_unit">单  位：500g</span>
+				<span class="show_pirze">¥<em>{{ good_info.gprice }}</em></span>
+				<span class="show_unit">单  位：{{ good_info.gunit }}</span>
 			</div>
 			<div class="goods_num clearfix">
 				<div class="num_name fl">数 量：</div>
@@ -41,16 +41,13 @@
 			<div class="new_goods">
 				<h3>新品推荐</h3>
 				<ul>
+                    {% for good in two_new_goods %}
 					<li>
-						<a href="#"><img src="images/goods/goods001.jpg"></a>
-						<h4><a href="#">进口柠檬</a></h4>
-						<div class="prize">￥3.90</div>
+						<a href="/goods/detail/{{ good.id }}"><img src="/wsj1/{{ good.gpic }}"></a>
+						<h4><a href="/goods/detail/{{ good.id }}">{{ good.gtitle }}</a></h4>
+						<div class="prize">￥{{ good.gprice }}</div>
 					</li>
-					<li>
-						<a href="#"><img src="images/goods/goods002.jpg"></a>
-						<h4><a href="#">玫瑰香葡萄</a></h4>
-						<div class="prize">￥16.80</div>
-					</li>
+                    {% endfor %}
 				</ul>
 			</div>
 		</div>

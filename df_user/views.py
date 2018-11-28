@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
 from django.http import JsonResponse
 from .models import *
@@ -38,6 +39,7 @@ def login(request):
 
 
 def register_user_exist(request):
+    #这个请求从js从发过来tiantianfresh\static\js\register.js
     user_name = request.GET.get('uname')
     print('user_name: ', user_name)
     num = UserInfo.objects.filter(uname=user_name).count()
@@ -88,7 +90,9 @@ def user_info(request):
 
 def user_order(request):
 
-    context = {"title": "用户订单"}
+    context = {"title": "用户订单",
+               "page_name": 1,
+               "guest_cart": 0}
     return render(request, 'df_user/user_center_order.html', context=context)
 
 
@@ -97,8 +101,6 @@ def user_site(request):
     # uaddress = models.CharField(max_length=100, verbose_name='收货地址', default='')
     # upostcode = models.CharField(max_length=8, verbose_name='邮政编码', default='')
     # uphone = models.CharField(max_length=15, verbose_name='联系电话', default='')
-
-
     current_user = UserInfo.objects.filter(id=request.session['user_id']).first()
     if request.method == 'POST':
         post = request.POST
@@ -108,29 +110,8 @@ def user_site(request):
         current_user.uphone = post.get('phonenumber')
         current_user.save()
 
-    context = {'title': "收货地址管理", 'user': current_user}
+    context = {'title': "收货地址管理",
+               'user': current_user,
+               "page_name": 1,
+               "guest_cart": 0}
     return render(request, 'df_user/user_center_site.html', context=context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

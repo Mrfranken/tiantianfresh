@@ -23,12 +23,12 @@
 
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
-			<li><a href="list.html" class="fruit">新鲜水果</a></li>
-			<li><a href="#model02" class="seafood">海鲜水产</a></li>
-			<li><a href="#model03" class="meet">猪牛羊肉</a></li>
-			<li><a href="#model04" class="egg">禽类蛋品</a></li>
-			<li><a href="#model05" class="vegetables">新鲜蔬菜</a></li>
-			<li><a href="#model06" class="ice">速冻食品</a></li>
+			<li><a href="list15_1_1/" class="fruit">新鲜水果</a></li> {#  num1, num2, num3代表产品类型, 第几页, 排序方式 #}
+            <li><a href="list16_1_1/" class="seafood">海鲜水产</a></li>
+            <li><a href="list17_1_1/" class="meet">猪牛羊肉</a></li>
+            <li><a href="list18_1_1/" class="egg">禽类蛋品</a></li>
+            <li><a href="list19_1_1/" class="vegetables">新鲜蔬菜</a></li>
+            <li><a href="list20_1_1/" class="ice">速冻食品</a></li>
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
@@ -53,7 +53,7 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for item in fruit %}
-                    <a href="/{{ item.id }}">{{ item.gtitle | slice:"10" }}</a>
+                    <a href="/{{ item.id }}/">{{ item.gtitle | slice:"10" }}</a>
                 {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
@@ -64,8 +64,8 @@
 			<ul class="goods_list fl">
                 {% for item in rfruit %}
                     <li>
-                        <h4><a href="/{{ item.id }}">{{ item.gtitle }}</a></h4>
-                        <a href="/{{ item.id }}"><img src="/wsj1/{{ item.gpic }}"></a>
+                        <h4><a href="/{{ item.id }}/">{{ item.gtitle }}</a></h4>
+                        <a href="/{{ item.id }}/"><img src="/wsj1/{{ item.gpic }}"></a>
                         <div class="prize">¥ {{ item.gprice }}</div>
                     </li>
                 {% endfor %}

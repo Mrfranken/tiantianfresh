@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .models import GoodCategory, GoodsInfo
+from django.core.paginator import Paginator
 
 
 def index(request):
@@ -35,9 +36,47 @@ def index(request):
     return render(request, 'df_goods/index.html', context=context)
 
 
-def good_list(request):
-    return render(request, 'df_goods/list.html')
+def good_list(request, category_id, page_id, sort_way):
+    category_id, page_id, sort_way = int(category_id), int(page_id), int(sort_way)
+    current_category = GoodCategory.objects.filter(id=category_id).first()
+    new_goods = current_category.goodsinfo_set.order_by('-id')[:2]
+    if sort_way == 1:
+        goods_list = current_category.goodsinfo_set.order_by('-id')
+    elif sort_way == 2:
+        goods_list = current_category.goodsinfo_set.order_by('gprice')
+    elif sort_way == 3:
+        goods_list = current_category.goodsinfo_set.order_by('gclick')
+
+    paginator = Paginator(goods_list, 3)
+    list_good = paginator.page(page_id)
+    page_range = paginator.page_range
 
 
-def detail(request):
-    return render(request, 'df_goods/detail.html')
+    context = {
+        'page_num': 0,
+        'guest_cart': 1,
+        'category_id': category_id,
+        'page_id': page_id,
+        'sort_way': sort_way,
+        'new_goods': new_goods,
+        'list_good': list_good,
+        'page_id': page_id,
+        'page_range': page_range,
+    }
+    return render(request, 'df_goods/list.html', context=context)
+
+
+def detail(request, good_id):
+    good_id = int(good_id)
+    good_info = GoodsInfo.objects.filter(id=good_id).first()
+    good_info.gclick += 1
+    good_info.save()
+
+    two_new_goods = good_info.gtype.goodsinfo_set.order_by('-id')[:2]
+    context = {
+        'page_num': 0,
+        'guest_cart': 1,
+        'good_info': good_info,
+        'two_new_goods': two_new_goods
+    }
+    return render(request, 'df_goods/detail.html', context=context)
