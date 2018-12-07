@@ -64,8 +64,8 @@
 			<ul class="goods_list fl">
                 {% for item in rfruit %}
                     <li>
-                        <h4><a href="/{{ item.id }}/">{{ item.gtitle }}</a></h4>
-                        <a href="/{{ item.id }}/"><img src="/wsj1/{{ item.gpic }}"></a>
+                        <h4><a href="detail/{{ item.id }}/">{{ item.gtitle }}</a></h4>
+                        <a href="detail/{{ item.id }}/"><img src="/wsj1/{{ item.gpic }}"></a>
                         <div class="prize">¥ {{ item.gprice }}</div>
                     </li>
                 {% endfor %}

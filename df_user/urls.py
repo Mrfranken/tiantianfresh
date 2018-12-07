@@ -10,5 +10,6 @@ urlpatterns = [
     url('^login_handle/$', views.login_handle),
     url('^user_info/$', views.user_info),
     url('^user_order/$', views.user_order),
-    url('^user_site/$', views.user_site),#user_site
+    url('^user_site/$', views.user_site),#user_site,
+    url('^logout/$', views.logout)
 ]

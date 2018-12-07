@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect, render_to_response
 from django.http import JsonResponse
 from .models import *
 from hashlib import md5
+from .islogin import is_login
 
 
 # Create your views here.
@@ -57,13 +58,20 @@ def login_handle(request):
     if user:
         verify_pwd = md5(pwd.encode('utf-8')).hexdigest()
         if verify_pwd == user.upwd:
-            resp = HttpResponseRedirect('/user/user_info/')
+            url = request.COOKIES.get('url', '')
+            print('url is: ', url)
+            if url:
+                resp = HttpResponseRedirect(url)
+            else:
+                resp = HttpResponseRedirect('/user/user_info/')
             if remember == 1:
                 resp.set_cookie('uname', username)
             else:
-                resp.set_cookie('uname', '', max_age=30)
+                resp.set_cookie('uname', '', max_age=3)
             request.session['user_id'] = user.id
             request.session['user_name'] = user.uname
+
+            print("full path: ", request.get_full_path)
             return resp
         else:
             context = {'title': '用户登录', 'error_name': 0, 'error_pwd': 1, 'uname': username, 'upwd': pwd}
@@ -75,6 +83,7 @@ def login_handle(request):
         return render(request, 'df_user/login.html', context=context)
 
 
+@is_login
 def user_info(request):
     current_user = UserInfo.objects.filter(id=request.session['user_id']).first()
 
@@ -88,6 +97,7 @@ def user_info(request):
     return render(request, 'df_user/user_center_info.html', context=context)
 
 
+@is_login
 def user_order(request):
 
     context = {"title": "用户订单",
@@ -96,6 +106,7 @@ def user_order(request):
     return render(request, 'df_user/user_center_order.html', context=context)
 
 
+@is_login
 def user_site(request):
     # ushouhuo = models.CharField(max_length=20, verbose_name='收货人', default='')
     # uaddress = models.CharField(max_length=100, verbose_name='收货地址', default='')
@@ -115,3 +126,8 @@ def user_site(request):
                "page_name": 1,
                "guest_cart": 0}
     return render(request, 'df_user/user_center_site.html', context=context)
+
+
+def logout(request):
+    request.session.flush()
+    return HttpResponseRedirect('/goods/')

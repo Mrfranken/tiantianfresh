@@ -47,7 +47,7 @@ def good_list(request, category_id, page_id, sort_way):
     elif sort_way == 3:
         goods_list = current_category.goodsinfo_set.order_by('gclick')
 
-    paginator = Paginator(goods_list, 3)
+    paginator = Paginator(goods_list, 2)
     list_good = paginator.page(page_id)
     page_range = paginator.page_range
 
