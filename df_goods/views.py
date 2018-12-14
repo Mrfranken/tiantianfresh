@@ -79,4 +79,19 @@ def detail(request, good_id):
         'good_info': good_info,
         'two_new_goods': two_new_goods
     }
-    return render(request, 'df_goods/detail.html', context=context)
+    resp = render(request, 'df_goods/detail.html', context=context)
+
+    recent_viewed_goods = request.COOKIES.get('recent_viewed_goods', '')
+    str_good_id = str(good_id)
+    if recent_viewed_goods:
+        recent_viewed_goods1 = recent_viewed_goods.split(',')
+        if recent_viewed_goods1.count(str_good_id) >= 1:
+            recent_viewed_goods1.remove(str_good_id)
+        recent_viewed_goods1.insert(0, str_good_id)
+        if len(recent_viewed_goods1) > 5:
+            del recent_viewed_goods1[5:]
+        recent_viewed_goods = ','.join(recent_viewed_goods1)
+    else:
+        recent_viewed_goods = str_good_id
+    resp.set_cookie('recent_viewed_goods', recent_viewed_goods)
+    return resp

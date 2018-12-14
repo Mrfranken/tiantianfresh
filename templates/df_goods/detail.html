@@ -5,9 +5,6 @@
     <script>
         $(function () {
             function calculateTotal() {
-                var total_goods = 0;
-                var total_price = 0;
-
                 count = $('#num_show').val();
                 unit_price = {{ good_info.gprice }};
                 total_price = parseInt(count) * parseFloat(unit_price);

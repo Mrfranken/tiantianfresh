@@ -2,6 +2,7 @@
 from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect, render_to_response
 from django.http import JsonResponse
 from .models import *
+from df_goods.models import GoodsInfo
 from hashlib import md5
 from .islogin import is_login
 
@@ -53,7 +54,7 @@ def login_handle(request):
     username = post.get('username')
     pwd = post.get('pwd')
     remember = int(post.get('remember', 0))
-    # print('remember is :', remember, type(remember))
+    print('remember is :', remember, type(remember))
     user = UserInfo.objects.filter(uname=username).first()
     if user:
         verify_pwd = md5(pwd.encode('utf-8')).hexdigest()
@@ -65,12 +66,12 @@ def login_handle(request):
             else:
                 resp = HttpResponseRedirect('/user/user_info/')
             if remember == 1:
-                resp.set_cookie('uname', username)
+                resp.set_cookie('uname', username, -1)
             else:
-                resp.set_cookie('uname', '', max_age=3)
+                resp.set_cookie('uname', '')
             request.session['user_id'] = user.id
             request.session['user_name'] = user.uname
-
+            request.session.set_expiry(600)
             print("full path: ", request.get_full_path)
             return resp
         else:
@@ -87,12 +88,20 @@ def login_handle(request):
 def user_info(request):
     current_user = UserInfo.objects.filter(id=request.session['user_id']).first()
 
+    recent_viewed_goods = request.COOKIES.get('recent_viewed_goods', '')
+    print('recent_viewed_goods: ', recent_viewed_goods)
+    goods_objects = list()
+    if recent_viewed_goods:
+        for good_id in recent_viewed_goods.split(','):
+            goods_objects.append(GoodsInfo.objects.filter(pk=int(good_id)).first())
+
     context = {
         'user_name': current_user.uname,
         'uphone': current_user.umail,
         'title': u'用户中心',
         'page_name': 1,
-        'guest_cart': 0
+        'guest_cart': 0,
+        'recent_viewed_goods': goods_objects
     }
     return render(request, 'df_user/user_center_info.html', context=context)
 
